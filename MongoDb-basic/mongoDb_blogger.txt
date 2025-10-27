@@ -1,0 +1,253 @@
+use blogger
+switched to db blogger
+blogger> db.users.insertOne({name:"Llyod", surname:"JvD", email:"lloyd@gmail.com",address:{city:"NYC", street:"Wall Street"}, hobbies:["soccor","programming"]})
+{
+  acknowledged: true,
+  insertedId: ObjectId('68ff692760bb271494eec4aa')
+}
+
+blogger> db.users.find().pretty()
+[
+  {
+    _id: ObjectId('68ff692760bb271494eec4aa'),
+    name: 'Llyod',
+    surname: 'JvD',
+    email: 'lloyd@gmail.com',
+    address: { city: 'NYC', street: 'Wall Street' },
+    hobbies: [ 'soccor', 'programming' ]
+  }
+]
+blogger> db.users.insertMany([{name:"Daya",surname:"DV",email:"ds@gmail.com",address:{city:"TUM",street:"Jalipalya"},hobbies:["Codding","Palaying"]},{name:"Vijay",surname:"JV",email:"viji@gmail.com",address:{city:"BAngalore",street:"kamakshi"},hobbies:["Dansing", "jumping"]}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('68ff6d0760bb271494eec4ab'),
+    '1': ObjectId('68ff6d0760bb271494eec4ac')
+  }
+}
+blogger> db.users.find()
+[
+  {
+    _id: ObjectId('68ff692760bb271494eec4aa'),
+    name: 'Llyod',
+    surname: 'JvD',
+    email: 'lloyd@gmail.com',
+    address: { city: 'NYC', street: 'Wall Street' },
+    hobbies: [ 'soccor', 'programming' ]
+  },
+  {
+    _id: ObjectId('68ff6d0760bb271494eec4ab'),
+    name: 'Daya',
+    surname: 'DV',
+    email: 'ds@gmail.com',
+    address: { city: 'TUM', street: 'Jalipalya' },
+    hobbies: [ 'Codding', 'Palaying' ]
+  },
+  {
+    _id: ObjectId('68ff6d0760bb271494eec4ac'),
+    name: 'Vijay',
+    surname: 'JV',
+    email: 'viji@gmail.com',
+    address: { city: 'BAngalore', street: 'kamakshi' },
+    hobbies: [ 'Dansing', 'jumping' ]
+  }
+]
+
+ //update
+blogger> db.users.updateOne({ _id: ObjectId('68ff6d0760bb271494eec4ac')},{$set:{address:{city:'Ban'}}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+[
+  {
+    _id: ObjectId('68ff692760bb271494eec4aa'),
+    name: 'Llyod',
+    surname: 'JvD',
+    email: 'lloyd@gmail.com',
+    address: { city: 'NYC', street: 'Wall Street' },
+    hobbies: [ 'soccor', 'programming' ]
+  },
+  {
+    _id: ObjectId('68ff6d0760bb271494eec4ab'),
+    name: 'Daya',
+    surname: 'DV',
+    email: 'ds@gmail.com',
+    address: { city: 'TUM', street: 'Jalipalya' },
+    hobbies: [ 'Codding', 'Palaying' ]
+  },
+  {
+    _id: ObjectId('68ff6d0760bb271494eec4ac'),
+    name: 'Vijay',
+    surname: 'JV',
+    email: 'viji@gmail.com',
+    address: { city: 'Ban' }, // updated comlete address so we cant see street
+    hobbies: [ 'Dansing', 'jumping' ]
+  }
+]
+
+//use bellow to update only silgle value
+
+blogger> db.users.updateOne({_id: ObjectId('68ff6d0760bb271494eec4ab')},{$set:{"address.city":"Gubbi"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+blogger> db.users.find()
+[
+  {
+    _id: ObjectId('68ff692760bb271494eec4aa'),
+    name: 'Llyod',
+    surname: 'JvD',
+    email: 'lloyd@gmail.com',
+    address: { city: 'NYC', street: 'Wall Street' },
+    hobbies: [ 'soccor', 'programming' ]
+  },
+  {
+    _id: ObjectId('68ff6d0760bb271494eec4ab'),
+    name: 'Daya',
+    surname: 'DV',
+    email: 'ds@gmail.com',
+    address: { city: 'Gubbi', street: 'Jalipalya' },
+    hobbies: [ 'Codding', 'Palaying' ]
+  },
+  {
+    _id: ObjectId('68ff6d0760bb271494eec4ac'),
+    name: 'Vijay',
+    surname: 'JV',
+    email: 'viji@gmail.com',
+    address: { city: 'Ban', street: 'Kamakshi' },
+    hobbies: [ 'Dansing', 'jumping' ]
+  }
+]
+
+ //update many
+
+blogger> db.users.updateMany({},{$set: {relationshipStatus:"unknown"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 3,
+  modifiedCount: 3,
+  upsertedCount: 0
+}
+blogger> db.users.updateOne({ _id: ObjectId('68ff692760bb271494eec4aa')},{$set:{relationshipStatus:"Single"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+blogger> db.users.find()
+[
+  {
+    _id: ObjectId('68ff692760bb271494eec4aa'),
+    name: 'Llyod',
+    surname: 'JvD',
+    email: 'lloyd@gmail.com',
+    address: { city: 'NYC', street: 'Wall Street' },
+    hobbies: [ 'soccor', 'programming' ],
+    relationshipStatus: 'Single'
+  },
+  {
+    _id: ObjectId('68ff6d0760bb271494eec4ab'),
+    name: 'Daya',
+    surname: 'DV',
+    email: 'ds@gmail.com',
+    address: { city: 'Gubbi', street: 'Jalipalya' },
+    hobbies: [ 'Codding', 'Palaying' ],
+    relationshipStatus: 'unknown'
+  },
+  {
+    _id: ObjectId('68ff6d0760bb271494eec4ac'),
+    name: 'Vijay',
+    surname: 'JV',
+    email: 'viji@gmail.com',
+    address: { city: 'Ban', street: 'Kamakshi' },
+    hobbies: [ 'Dansing', 'jumping' ],
+    relationshipStatus: 'unknown'
+  }
+]
+
+//returning based on conditions
+
+blogger>  db.users.find({relationshipStatus:"unknown"})
+[
+  {
+    _id: ObjectId('68ff6d0760bb271494eec4ab'),
+    name: 'Daya',
+    surname: 'DV',
+    email: 'ds@gmail.com',
+    address: { city: 'Gubbi', street: 'Jalipalya' },
+    hobbies: [ 'Codding', 'Palaying' ],
+    relationshipStatus: 'unknown'
+  },
+  {
+    _id: ObjectId('68ff6d0760bb271494eec4ac'),
+    name: 'Vijay',
+    surname: 'JV',
+    email: 'viji@gmail.com',
+    address: { city: 'Ban', street: 'Kamakshi' },
+    hobbies: [ 'Dansing', 'jumping' ],
+    relationshipStatus: 'unknown'
+  }
+]
+
+//single property document checking name :1
+
+blogger> db.users.find({relationshipStatus:"unknown"},{name:1})
+[
+  { _id: ObjectId('68ff6d0760bb271494eec4ab'), name: 'Daya' },
+  { _id: ObjectId('68ff6d0760bb271494eec4ac'), name: 'Vijay' }
+]
+
+//return on id index
+
+blogger> db.users.find({relationshipStatus:"unknown"},{name:1, _id:0})
+[ { name: 'Daya' }, { name: 'Vijay' } ]
+blogger> db.users.find({relationshipStatus:"unknown"},{name:1,_id:2})
+[
+  { _id: ObjectId('68ff6d0760bb271494eec4ab'), name: 'Daya' },
+  { _id: ObjectId('68ff6d0760bb271494eec4ac'), name: 'Vijay' }
+]
+
+
+//delete documents
+
+blogger> db.users.deleteOne({name:"Llyod"})
+{ acknowledged: true, deletedCount: 1 }
+blogger> db.users.find().count()
+2
+blogger> db.users.find().pretty()
+[
+  {
+    _id: ObjectId('68ff6d0760bb271494eec4ab'),
+    name: 'Daya',
+    surname: 'DV',
+    email: 'ds@gmail.com',
+    address: { city: 'Gubbi', street: 'Jalipalya' },
+    hobbies: [ 'Codding', 'Palaying' ],
+    relationshipStatus: 'unknown'
+  },
+  {
+    _id: ObjectId('68ff6d0760bb271494eec4ac'),
+    name: 'Vijay',
+    surname: 'JV',
+    email: 'viji@gmail.com',
+    address: { city: 'Ban', street: 'Kamakshi' },
+    hobbies: [ 'Dansing', 'jumping' ],
+    relationshipStatus: 'unknown'
+  }
+]
+blogger> db.users.deleteMany({relationshipStatus:"unknown"})
+{ acknowledged: true, deletedCount: 2 }
+blogger> db.users.find()  // there is no documents in users collections
+
