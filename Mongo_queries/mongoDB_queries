@@ -18,13 +18,13 @@ to display above->db.students.find()
 
 datatypes->
 db.students.insertOne({name:"Daya",
-			age:23,
-			gpa:2.8;
-			fullTime:false,
-			registerDate:new Date();
-			gragutionDate:null,
-			courses:["Physics","Biology","Chimistry"]
-			Address:{streat:"123 jalipalya",
+			age:23, //number
+			gpa:2.8;  // decimal
+			fullTime:false, // boolean
+			registerDate:new Date(); // date
+			gragutionDate:null, // null
+			courses:["Physics","Biology","Chimistry"] //arrar
+			Address:{streat:"123 jalipalya",     // objects
 				city:"jalipalya",
 				Zipcode:572213}})
 
