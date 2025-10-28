@@ -1,1 +1,101 @@
 
+some comamds
+in vs code terminal
+establish connection->mongosh
+
+show dbs
+to use databases->use admin
+create databases->use dsya
+to create collection[table]->db.createCollection("name"[table name])
+
+db.students.insertOne({name:"Spongebab", age:30, gpa:3.2})
+
+
+
+//to insert many student
+db.students.insertMany([{name:"patric", age:38, gpa:6.4},{name:"sandy", age:45, gpa:4.3},{name:"Daya", age:24, gpa:7.1}])
+to display above->db.students.find()
+
+datatypes->
+db.students.insertOne({name:"Daya",
+			age:23,
+			gpa:2.8;
+			fullTime:false,
+			registerDate:new Date();
+			gragutionDate:null,
+			courses:["Physics","Biology","Chimistry"]
+			Address:{streat:"123 jalipalya",
+				city:"jalipalya",
+				Zipcode:572213}})
+
+consider all above documents lets sort ->1 for assending, -1 for desending
+db.students.find().sort({name:1});
+db.students.find().sort({age:-1});
+
+//limit method used for how many documents to display
+db.students.find().limit(2)//first to documents are display
+
+//in sql we use limit and order by below in mongoDB
+db.students.find().sort({gpa:-1}).limit(1)
+
+//where cluse in sql, in mongoBD find method
+db.student.find({age:40})//it display whose age=40
+
+sytex-> db.collection-name.find({query},{projection})//projection means only displaying fields
+example->db.students.find({},{name:true, age:true, gpa:false})//it displays only name and age, not a gpa.
+
+//update syntax-> db.document.update({filter},{$set:{update}})
+exapmle-> db.students.updateOne({name:"Daya"},{$set:{full-time:true}})
+//to remove a feald ->remove a column->db.students.update({name:"daya"},{$unset:{full-time:""}})
+
+//update more then one rows(documents)
+db.students.updateMany({},{$set:{age:37}})//age of entair collection become 37
+//exit operator
+db.students.updateMany({fulltime:{$exit:false}},{$set:{full-time:true}})
+
+//delete
+db.students.deleteOne({name:"Daya"})//it delete whose name is daya
+db.students.deleteMany({Registration_date:{$exit:false}})//using exit operator to delete
+
+db.students.find({name:{$ne:"daya"}})//it display document name not equal to daya
+db.students.find({age:{$lt:20}})//it display all documents where age less than 20
+db.students.find({gpa:{$lte:7.0}})//it display all documents where gpa less then or equal to 7.0
+//for greater then-> $gt, $gte
+db.students.find({gpa:{$gt:3.5, $lt:8.0}})//it display gpa between 3.5 and 8.0 ->ti is like between operator in sql
+db.students.find({age:{$in:["Daya","vinu","Naveed"]}})//it displays alldocuments where name daya, vinu Naveed
+db.students.find({age:{$nin:["Daya","vinu","Naveed"]}})//not in operator
+//logical operators->
+db.students.find({$and:{[{full-time:false},{age:{$lte:30}}]})//and
+db.students.find({$or:{[{full-time:false},{age:{$lte:30}}]})//or
+db.students.find({$nor:{[{full-time:false},{age:{$lte:30}}]})//nor->both condition should be false oppsite to and
+db.students.find({age:{$not:{$gte:30}}})//not->it return according to condition and also null value
+
+//indexes-> it allows us to quick look up field, tskes more memory and deficult to insert, update
+db.students.find({name:"daya"}).explain({executionstarts})//before index is not good executationStart
+//to improve the look up speed we use indexes
+db.students.createIndex({name:1})//index created name->name_1
+db.students.find({name:"daya"}).explain({executionstarts})//after index is good executationStart
+db.students.getIndex();
+db.students.dropIndex(name_1);
+
+//collections
+
+show collections;
+db.createCollection("Teacher", {capped:true, size:10000, max=100//[teacner]\\}):add limit while creating table
+db.createCollection("Teacher", {capped:true, size:10000, max=100},{autoIndexId:false}})
+
+
+
+
+
+
+
+
+camposs-mongodb-application
+
+
+
+
+
+
+
